@@ -27,3 +27,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# IntelliJ 프로젝트 설정 폴더 (전체 제외)
+.idea/
+
+# 프로젝트 설정 파일
+eureka-mini-project.iml
