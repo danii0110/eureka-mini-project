@@ -212,32 +212,4 @@ public class PhoneDao {
 
         return res;
     }
-
-    // 판매 후 재고 감소
-    public int decreaseStock(int phoneId, int quantity) {
-        int res = -1;
-
-        // TODO: SaleDao에서 호출하여 구매 완료 시 재고 감소 처리
-
-        String sql = "UPDATE phone SET stock = stock - ? WHERE id = ? AND stock >= ?";
-
-        Connection con = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            con = DBManager.getConnection();
-            pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, quantity);
-            pstmt.setInt(2, phoneId);
-            pstmt.setInt(3, quantity);
-
-            res = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DBManager.releaseConnection(pstmt, con);
-        }
-
-        return res;
-    }
 }
