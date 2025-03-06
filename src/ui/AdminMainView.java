@@ -2,6 +2,8 @@ package ui;
 
 import dao.PhoneDao;
 import dto.Phone;
+import ui.dialog.AddPhoneDialog;
+import ui.dialog.EditPhoneDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,7 +70,7 @@ public class AdminMainView extends JPanel {
 
     // 휴대폰 추가 다이얼로그
     private void openAddPhoneDialog() {
-        new AddPhoneDialog(mainFrame, this).setVisible(true);
+        new AddPhoneDialog(this).setVisible(true);
     }
 
     // 휴대폰 수정 다이얼로그
@@ -80,7 +82,8 @@ public class AdminMainView extends JPanel {
         }
 
         int phoneId = (int) phoneTable.getValueAt(selectedRow, 0);
-        new EditPhoneDialog(mainFrame, this, phoneId).setVisible(true);
+        Phone phone = phoneDao.getPhoneById(phoneId);
+        new EditPhoneDialog(this, phone).setVisible(true);
     }
 
     // 휴대폰 삭제
