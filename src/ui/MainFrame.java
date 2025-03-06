@@ -32,6 +32,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(new RegisterView(this), "RegisterView");
         mainPanel.add(new AdminMainView(this), "AdminMainView");
         mainPanel.add(new UserPurchaseHistoryView(this), "UserPurchaseHistoryView");
+        mainPanel.add(new SalesHistoryView(this), "SalesHistoryView");
 
         add(mainPanel, BorderLayout.CENTER);
 

@@ -49,9 +49,9 @@ public class UserPurchaseHistoryView extends JPanel {
         Object[][] data = new Object[purchases.size()][3];
 
         for (int i = 0; i < purchases.size(); i++) {
-            data[i][0] = purchases.get(i).getSaleId();
+            data[i][0] = purchases.get(i).getId();
             data[i][1] = purchases.get(i).getPhoneId();
-            data[i][2] = purchases.get(i).getSaleDate();
+            data[i][2] = purchases.get(i).getSaleTime();
         }
 
         return data;
