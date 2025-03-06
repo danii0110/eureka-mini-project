@@ -1,9 +1,10 @@
 package ui;
 
+import dao.UserDao;
+import dto.User;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Stack;
 
 public class MainFrame extends JFrame {
@@ -13,6 +14,7 @@ public class MainFrame extends JFrame {
     private JButton loginLogoutButton;
     private boolean isLoggedIn = false;
     private boolean isAdmin = false;
+    private User loggedInUser; // 로그인된 사용자 정보
     private Stack<String> viewHistory = new Stack<>();
 
     public MainFrame() {
@@ -70,6 +72,7 @@ public class MainFrame extends JFrame {
         if (isLoggedIn) {
             isLoggedIn = false;
             isAdmin = false;
+            loggedInUser = null; // 사용자 정보 초기화
             loginLogoutButton.setText("로그인");
             showView("UserMainView");
         } else {
@@ -78,9 +81,11 @@ public class MainFrame extends JFrame {
     }
 
     // 로그인 성공 시 호출될 메서드
-    public void loginSuccess(boolean isAdminUser) {
+    public void loginSuccess(User user) {
         isLoggedIn = true;
-        isAdmin = isAdminUser;
+        isAdmin = user.getRole().equals("admin");
+        loggedInUser = user; // 로그인한 사용자 정보 저장
+
         loginLogoutButton.setText("로그아웃");
 
         if (isAdmin) {
@@ -88,6 +93,11 @@ public class MainFrame extends JFrame {
         } else {
             showView("UserMainView");
         }
+    }
+
+    // 현재 로그인된 사용자 반환
+    public User getLoggedInUser() {
+        return loggedInUser;
     }
 
     public static void main(String[] args) {

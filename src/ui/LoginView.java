@@ -78,6 +78,6 @@ public class LoginView extends JPanel {
         boolean isAdmin = user.getRole().equals("admin");
         JOptionPane.showMessageDialog(this, "로그인 성공!", "로그인", JOptionPane.INFORMATION_MESSAGE);
 
-        mainFrame.loginSuccess(isAdmin);
+        mainFrame.loginSuccess(user);
     }
 }
