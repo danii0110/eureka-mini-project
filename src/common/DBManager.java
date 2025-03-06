@@ -8,7 +8,7 @@ public class DBManager {
     static String pwd = "0000";
 
     // DB 연결 메서드
-    public static Connection connection() {
+    public static Connection getConnection() {
         Connection con = null;
         try {
             con = DriverManager.getConnection(url, user, pwd);
