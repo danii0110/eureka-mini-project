@@ -96,9 +96,18 @@ public class RegisterView extends JPanel {
 
         if (result > 0) {
             JOptionPane.showMessageDialog(this, "회원가입 성공! 로그인 해주세요.", "회원가입 완료", JOptionPane.INFORMATION_MESSAGE);
+            clearFields();
             mainFrame.showView("LoginView");
         } else {
             JOptionPane.showMessageDialog(this, "회원가입 실패. 다시 시도하세요.", "회원가입 오류", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // 입력 필드 초기화 메서드 추가
+    private void clearFields() {
+        nameField.setText("");
+        contactField.setText("");
+        emailField.setText("");
+        passwordField.setText("");
     }
 }
