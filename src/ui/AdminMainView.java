@@ -68,9 +68,13 @@ public class AdminMainView extends JPanel {
         return data;
     }
 
-    // 휴대폰 추가 다이얼로그
+    // 휴대폰 추가 다이얼로그 (추가 후 테이블 갱신)
     private void openAddPhoneDialog() {
-        new AddPhoneDialog(this).setVisible(true);
+        AddPhoneDialog dialog = new AddPhoneDialog(this);
+        dialog.setVisible(true);
+
+        // 다이얼로그가 닫힌 후 테이블 새로고침
+        refreshTable();
     }
 
     // 휴대폰 수정 다이얼로그
