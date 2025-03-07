@@ -73,9 +73,10 @@ public class RegisterView extends JPanel {
         registerButton.addActionListener(e -> register());
 
         // 뒤로 가기 버튼 (로그인 화면으로 이동)
-        backButton.addActionListener(e -> mainFrame.showView("login"));
+        backButton.addActionListener(e -> mainFrame.showView("LoginView"));
     }
 
+    // 🔹 회원가입 처리 메서드 추가
     private void register() {
         String name = nameField.getText();
         String contact = contactField.getText();
@@ -102,7 +103,7 @@ public class RegisterView extends JPanel {
 
         if (result > 0) {
             JOptionPane.showMessageDialog(this, "회원가입 성공! 로그인 해주세요.", "회원가입 완료", JOptionPane.INFORMATION_MESSAGE);
-            mainFrame.showView("login");
+            mainFrame.showView("LoginView");
         } else {
             JOptionPane.showMessageDialog(this, "회원가입 실패. 다시 시도하세요.", "회원가입 오류", JOptionPane.ERROR_MESSAGE);
         }

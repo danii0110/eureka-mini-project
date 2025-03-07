@@ -49,18 +49,19 @@ public class MainFrame extends JFrame {
         backButton.addActionListener(e -> goBack());
         loginLogoutButton.addActionListener(e -> toggleLoginLogout());
 
-        showView("UserMainView"); // 초기 화면
+        // 초기 화면 설정
+        showView("UserMainView");
     }
 
-    // 화면 전환 메서드
+    // 화면 전환 메서드 (중복 추가 방지)
     public void showView(String viewName) {
-        if (!viewHistory.isEmpty() && !viewHistory.peek().equals(viewName)) {
+        if (viewHistory.isEmpty() || !viewHistory.peek().equals(viewName)) {
             viewHistory.push(viewName);
         }
         cardLayout.show(mainPanel, viewName);
     }
 
-    // 뒤로 가기 메서드
+    // 뒤로 가기 메서드 (예외 방지)
     private void goBack() {
         if (viewHistory.size() > 1) {
             viewHistory.pop(); // 현재 화면 제거
