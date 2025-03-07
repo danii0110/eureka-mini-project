@@ -14,8 +14,7 @@ public class UserPurchaseHistoryView extends JPanel {
     private JTable purchaseTable;
     private JButton backButton;
     private SaleDao saleDao;
-    private String[] columnNames = {"판매 ID", "휴대폰 ID", "구매 날짜"};
-    private Object[][] data;
+    private String[] columnNames = {"브랜드", "모델", "가격", "구매 날짜"};
     private DefaultTableModel tableModel;
 
     public UserPurchaseHistoryView(MainFrame mainFrame) {
@@ -25,8 +24,7 @@ public class UserPurchaseHistoryView extends JPanel {
         setLayout(new BorderLayout());
 
         // 초기 테이블 생성 (빈 데이터)
-        data = new Object[0][3];
-        tableModel = new DefaultTableModel(data, columnNames);
+        tableModel = new DefaultTableModel(new Object[0][4], columnNames);
         purchaseTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(purchaseTable);
 
@@ -41,7 +39,7 @@ public class UserPurchaseHistoryView extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    // 화면이 열릴 때마다 최신 데이터를 가져오도록 설정
+    // 최신 구매 내역을 불러와 테이블 갱신
     public void refreshTable() {
         User loggedInUser = mainFrame.getLoggedInUser();
         if (loggedInUser == null) {
@@ -51,18 +49,12 @@ public class UserPurchaseHistoryView extends JPanel {
 
         List<Sale> purchases = saleDao.getSalesByUserId(loggedInUser.getUserId());
 
-        // 디버깅: 실제 가져온 데이터 확인
-        System.out.println("구매 내역 개수: " + purchases.size());
-        for (Sale sale : purchases) {
-            System.out.println(sale.getId() + " - " + sale.getPhoneId() + " - " + sale.getSaleTime());
-        }
-
-        // 테이블 업데이트
-        Object[][] newData = new Object[purchases.size()][3];
+        Object[][] newData = new Object[purchases.size()][4];
         for (int i = 0; i < purchases.size(); i++) {
-            newData[i][0] = purchases.get(i).getId();
-            newData[i][1] = purchases.get(i).getPhoneId();
-            newData[i][2] = purchases.get(i).getSaleTime();
+            newData[i][0] = purchases.get(i).getBrand();
+            newData[i][1] = purchases.get(i).getModel();
+            newData[i][2] = purchases.get(i).getPrice();
+            newData[i][3] = purchases.get(i).getSaleTime();
         }
 
         tableModel.setDataVector(newData, columnNames);

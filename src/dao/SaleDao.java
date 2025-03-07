@@ -49,10 +49,13 @@ public class SaleDao {
         return res;
     }
 
-    // 특정 판매 내역 조회
+    // 특정 판매 내역 조회 (phone 테이블 조인 추가)
     public Sale getSaleById(int saleId) {
         Sale sale = null;
-        String sql = "SELECT * FROM sale WHERE id = ?";
+        String sql = "SELECT s.id, s.user_id, s.phone_id, s.sale_date, p.brand, p.model, p.price " +
+                "FROM sale s " +
+                "JOIN phone p ON s.phone_id = p.id " +
+                "WHERE s.id = ?";
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -69,6 +72,9 @@ public class SaleDao {
                         rs.getInt("id"),
                         rs.getInt("user_id"),
                         rs.getInt("phone_id"),
+                        rs.getString("brand"),
+                        rs.getString("model"),
+                        rs.getInt("price"),
                         rs.getTimestamp("sale_date")
                 );
             }
@@ -81,10 +87,13 @@ public class SaleDao {
         return sale;
     }
 
-    // 특정 사용자의 구매 내역 조회
+    // 특정 사용자의 구매 내역 조회 (JOIN 추가)
     public List<Sale> getSalesByUserId(int userId) {
         List<Sale> sales = new ArrayList<>();
-        String sql = "SELECT * FROM sale WHERE user_id = ?";
+        String sql = "SELECT s.id, s.user_id, s.phone_id, s.sale_date, p.brand, p.model, p.price " +
+                "FROM sale s " +
+                "JOIN phone p ON s.phone_id = p.id " +
+                "WHERE s.user_id = ?";
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -101,6 +110,9 @@ public class SaleDao {
                         rs.getInt("id"),
                         rs.getInt("user_id"),
                         rs.getInt("phone_id"),
+                        rs.getString("brand"),
+                        rs.getString("model"),
+                        rs.getInt("price"),
                         rs.getTimestamp("sale_date")
                 ));
             }
@@ -113,10 +125,12 @@ public class SaleDao {
         return sales;
     }
 
-    // 전체 판매 내역 조회 (관리자용)
+    // 전체 판매 내역 조회 (관리자용) - phone 테이블 JOIN 추가
     public List<Sale> getAllSales() {
         List<Sale> sales = new ArrayList<>();
-        String sql = "SELECT * FROM sale";
+        String sql = "SELECT s.id, s.user_id, s.phone_id, s.sale_date, p.brand, p.model, p.price " +
+                "FROM sale s " +
+                "JOIN phone p ON s.phone_id = p.id";
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -132,6 +146,9 @@ public class SaleDao {
                         rs.getInt("id"),
                         rs.getInt("user_id"),
                         rs.getInt("phone_id"),
+                        rs.getString("brand"),
+                        rs.getString("model"),
+                        rs.getInt("price"),
                         rs.getTimestamp("sale_date")
                 ));
             }

@@ -6,13 +6,20 @@ public class Sale {
     private int id;
     private int userId;
     private int phoneId;
+    private String brand;
+    private String model;
+    private int price;
     private Timestamp saleTime;
 
     public Sale() {}
-    public Sale(int id, int userId, int phoneId, Timestamp saleTime) {
+
+    public Sale(int id, int userId, int phoneId, String brand, String model, int price, Timestamp saleTime) {
         this.id = id;
         this.userId = userId;
         this.phoneId = phoneId;
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
         this.saleTime = saleTime;
     }
 
@@ -40,6 +47,30 @@ public class Sale {
         this.phoneId = phoneId;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public Timestamp getSaleTime() {
         return saleTime;
     }
@@ -54,6 +85,9 @@ public class Sale {
                 "id=" + id +
                 ", userId=" + userId +
                 ", phoneId=" + phoneId +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", price=" + price +
                 ", saleTime=" + saleTime +
                 '}';
     }
