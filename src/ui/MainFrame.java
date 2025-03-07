@@ -17,6 +17,9 @@ public class MainFrame extends JFrame {
     private User loggedInUser; // 로그인된 사용자 정보
     private Stack<String> viewHistory = new Stack<>();
 
+    // UserPurchaseHistoryView를 직접 관리하는 멤버 변수 추가
+    private UserPurchaseHistoryView userPurchaseHistoryView;
+
     public MainFrame() {
         setTitle("휴대폰 판매 관리 시스템");
         setSize(800, 600);
@@ -26,12 +29,16 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
+        // 화면 객체 생성
+        UserMainView userMainView = new UserMainView(this);
+        userPurchaseHistoryView = new UserPurchaseHistoryView(this); // 멤버 변수로 관리
+
         // 화면 추가
-        mainPanel.add(new UserMainView(this), "UserMainView");
+        mainPanel.add(userMainView, "UserMainView");
         mainPanel.add(new LoginView(this), "LoginView");
         mainPanel.add(new RegisterView(this), "RegisterView");
         mainPanel.add(new AdminMainView(this), "AdminMainView");
-        mainPanel.add(new UserPurchaseHistoryView(this), "UserPurchaseHistoryView");
+        mainPanel.add(userPurchaseHistoryView, "UserPurchaseHistoryView"); // 추가
         mainPanel.add(new SalesHistoryView(this), "SalesHistoryView");
 
         add(mainPanel, BorderLayout.CENTER);
@@ -58,6 +65,12 @@ public class MainFrame extends JFrame {
         if (viewHistory.isEmpty() || !viewHistory.peek().equals(viewName)) {
             viewHistory.push(viewName);
         }
+
+        // 구매 내역 조회 시 테이블 데이터 새로고침
+        if (viewName.equals("UserPurchaseHistoryView")) {
+            userPurchaseHistoryView.refreshTable(); // 직접 호출
+        }
+
         cardLayout.show(mainPanel, viewName);
     }
 
