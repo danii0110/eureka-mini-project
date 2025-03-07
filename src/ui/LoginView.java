@@ -1,5 +1,6 @@
 package ui;
 
+import common.PasswordUtil;
 import dao.UserDao;
 import dto.User;
 import ui.MainFrame;
@@ -70,7 +71,7 @@ public class LoginView extends JPanel {
 
         User user = userDao.getUserByEmail(email);
 
-        if (user == null || !user.getPassword().equals(password)) {
+        if (user == null || !PasswordUtil.checkPassword(password, user.getPassword())) { // 해싱된 비밀번호 검증
             JOptionPane.showMessageDialog(this, "이메일 또는 비밀번호가 잘못되었습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
             return;
         }

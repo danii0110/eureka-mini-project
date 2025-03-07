@@ -1,5 +1,6 @@
 package ui;
 
+import common.PasswordUtil;
 import dao.UserDao;
 import dto.User;
 
@@ -92,7 +93,11 @@ public class RegisterView extends JPanel {
             return;
         }
 
-        User newUser = new User(0, name, contact, email, password, new Timestamp(System.currentTimeMillis()), "user");
+        // 비밀번호 해싱 추가
+        String hashedPassword = PasswordUtil.hashPassword(password);
+
+        // 해싱된 비밀번호 저장
+        User newUser = new User(0, name, contact, email, hashedPassword, new Timestamp(System.currentTimeMillis()), "user");
         int result = userDao.createUser(newUser);
 
         if (result > 0) {
