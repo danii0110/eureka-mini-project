@@ -3,7 +3,6 @@ package ui;
 import common.PasswordUtil;
 import dao.UserDao;
 import dto.User;
-import ui.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +56,7 @@ public class LoginView extends JPanel {
         loginButton.addActionListener(e -> login());
 
         // 회원가입 버튼 클릭 이벤트 (회원가입 뷰로 이동)
-        registerButton.addActionListener(e -> mainFrame.showView("register"));
+        registerButton.addActionListener(e -> mainFrame.showView("RegisterView"));
     }
 
     private void login() {
@@ -71,14 +70,22 @@ public class LoginView extends JPanel {
 
         User user = userDao.getUserByEmail(email);
 
-        if (user == null || !PasswordUtil.checkPassword(password, user.getPassword())) { // 해싱된 비밀번호 검증
+        if (user == null) {
             JOptionPane.showMessageDialog(this, "이메일 또는 비밀번호가 잘못되었습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        boolean isAdmin = user.getRole().equals("admin");
-        JOptionPane.showMessageDialog(this, "로그인 성공!", "로그인", JOptionPane.INFORMATION_MESSAGE);
+        // 디버깅용 출력
+        System.out.println("입력한 비밀번호: " + password);
+        System.out.println("DB에서 가져온 해시 비밀번호: " + user.getPassword());
 
+        if (!PasswordUtil.checkPassword(password, user.getPassword())) {
+            JOptionPane.showMessageDialog(this, "이메일 또는 비밀번호가 잘못되었습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "로그인 성공!", "로그인", JOptionPane.INFORMATION_MESSAGE);
         mainFrame.loginSuccess(user);
     }
+
 }

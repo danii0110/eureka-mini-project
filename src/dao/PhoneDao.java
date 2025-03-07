@@ -57,7 +57,6 @@ public class PhoneDao {
             pstmt.setInt(5, phone.getId());
 
             res = pstmt.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -67,7 +66,7 @@ public class PhoneDao {
         return res;
     }
 
-    // 휴대폰 삭제(이미 판매된 휴대폰인 경우 삭제 불가)
+    // 휴대폰 삭제 (이미 판매된 경우 삭제 불가)
     public int deletePhone(int id) {
         int res = -1;
         String sql = "DELETE FROM phone WHERE id = ?";
@@ -80,8 +79,6 @@ public class PhoneDao {
             pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, id);
 
-            // TODO: sale 테이블과 연동하여 판매된 휴대폰인지 확인하는 로직 추가 필요
-
             res = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,7 +89,7 @@ public class PhoneDao {
         return res;
     }
 
-    // 특정 휴대폰 조회
+    // 특정 휴대폰 조회 (존재하지 않으면 null 반환)
     public Phone getPhoneById(int id) {
         Phone phone = null;
         String sql = "SELECT * FROM phone WHERE id = ?";

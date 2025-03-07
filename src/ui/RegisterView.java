@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 public class RegisterView extends JPanel {
     private JTextField nameField, contactField, emailField;
     private JPasswordField passwordField;
-    private JButton registerButton, backButton;
+    private JButton registerButton;
     private MainFrame mainFrame;
     private UserDao userDao;
 
@@ -35,7 +35,6 @@ public class RegisterView extends JPanel {
         passwordField = new JPasswordField(15);
 
         registerButton = new JButton("가입하기");
-        backButton = new JButton("←");
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -66,16 +65,11 @@ public class RegisterView extends JPanel {
         gbc.gridwidth = 2;
         add(registerButton, gbc);
 
-        gbc.gridy = 5;
-        add(backButton, gbc);
-
         // 회원가입 버튼 클릭 이벤트
         registerButton.addActionListener(e -> register());
-
-        // 뒤로 가기 버튼 (로그인 화면으로 이동)
-        backButton.addActionListener(e -> mainFrame.showView("login"));
     }
 
+    // 회원가입 처리 메서드
     private void register() {
         String name = nameField.getText();
         String contact = contactField.getText();
@@ -102,9 +96,18 @@ public class RegisterView extends JPanel {
 
         if (result > 0) {
             JOptionPane.showMessageDialog(this, "회원가입 성공! 로그인 해주세요.", "회원가입 완료", JOptionPane.INFORMATION_MESSAGE);
-            mainFrame.showView("login");
+            clearFields();
+            mainFrame.showView("LoginView");
         } else {
             JOptionPane.showMessageDialog(this, "회원가입 실패. 다시 시도하세요.", "회원가입 오류", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // 입력 필드 초기화 메서드 추가
+    private void clearFields() {
+        nameField.setText("");
+        contactField.setText("");
+        emailField.setText("");
+        passwordField.setText("");
     }
 }
