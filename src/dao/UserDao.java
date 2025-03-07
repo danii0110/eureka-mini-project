@@ -27,7 +27,7 @@ public class UserDao {
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getContact());
             pstmt.setString(3, user.getEmail());
-            pstmt.setString(4, PasswordUtil.hashPassword(user.getPassword())); // 해싱된 비밀번호 저장
+            pstmt.setString(4, user.getPassword()); // 여기서 해싱된 비밀번호를 그대로 저장
             pstmt.setString(5, user.getRole());
 
             res = pstmt.executeUpdate();

@@ -70,7 +70,16 @@ public class LoginView extends JPanel {
 
         User user = userDao.getUserByEmail(email);
 
-        if (user == null || !PasswordUtil.checkPassword(password, user.getPassword())) { // 해싱된 비밀번호 검증
+        if (user == null) {
+            JOptionPane.showMessageDialog(this, "이메일 또는 비밀번호가 잘못되었습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 디버깅용 출력
+        System.out.println("입력한 비밀번호: " + password);
+        System.out.println("DB에서 가져온 해시 비밀번호: " + user.getPassword());
+
+        if (!PasswordUtil.checkPassword(password, user.getPassword())) {
             JOptionPane.showMessageDialog(this, "이메일 또는 비밀번호가 잘못되었습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -78,4 +87,5 @@ public class LoginView extends JPanel {
         JOptionPane.showMessageDialog(this, "로그인 성공!", "로그인", JOptionPane.INFORMATION_MESSAGE);
         mainFrame.loginSuccess(user);
     }
+
 }
