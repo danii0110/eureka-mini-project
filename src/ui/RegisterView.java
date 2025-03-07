@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 public class RegisterView extends JPanel {
     private JTextField nameField, contactField, emailField;
     private JPasswordField passwordField;
-    private JButton registerButton, backButton;
+    private JButton registerButton;
     private MainFrame mainFrame;
     private UserDao userDao;
 
@@ -35,7 +35,6 @@ public class RegisterView extends JPanel {
         passwordField = new JPasswordField(15);
 
         registerButton = new JButton("가입하기");
-        backButton = new JButton("←");
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -66,17 +65,11 @@ public class RegisterView extends JPanel {
         gbc.gridwidth = 2;
         add(registerButton, gbc);
 
-        gbc.gridy = 5;
-        add(backButton, gbc);
-
         // 회원가입 버튼 클릭 이벤트
         registerButton.addActionListener(e -> register());
-
-        // 뒤로 가기 버튼 (로그인 화면으로 이동)
-        backButton.addActionListener(e -> mainFrame.showView("LoginView"));
     }
 
-    // 🔹 회원가입 처리 메서드 추가
+    // 회원가입 처리 메서드
     private void register() {
         String name = nameField.getText();
         String contact = contactField.getText();
