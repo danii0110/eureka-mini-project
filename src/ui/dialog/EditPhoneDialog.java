@@ -13,6 +13,7 @@ public class EditPhoneDialog extends JDialog {
     private PhoneDao phoneDao;
     private AdminMainView parentView;
     private int phoneId;
+    private boolean isConfirmed = false; // 수정 완료 여부 확인을 위한 필드 추가
 
     public EditPhoneDialog(AdminMainView parentView, Phone phone) {
         this.parentView = parentView;
@@ -74,10 +75,15 @@ public class EditPhoneDialog extends JDialog {
 
         if (result > 0) {
             JOptionPane.showMessageDialog(this, "수정 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
-            parentView.refreshTable();
+            isConfirmed = true; // 수정이 정상적으로 완료된 경우 true 설정
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "수정 실패. 다시 시도하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // 다이얼로그가 닫힌 후 수정 여부를 확인할 수 있도록 추가
+    public boolean isConfirmed() {
+        return isConfirmed;
     }
 }

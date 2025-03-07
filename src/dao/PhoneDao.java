@@ -29,8 +29,15 @@ public class PhoneDao {
             pstmt.setInt(4, phone.getStock());
 
             res = pstmt.executeUpdate();
+            con.commit(); // 명시적 커밋
+            System.out.println("[SUCCESS] 휴대폰 등록 완료: " + phone.getBrand() + " " + phone.getModel());
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                if (con != null) con.rollback(); // 예외 발생 시 롤백
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
         } finally {
             DBManager.releaseConnection(pstmt, con);
         }
@@ -57,8 +64,15 @@ public class PhoneDao {
             pstmt.setInt(5, phone.getId());
 
             res = pstmt.executeUpdate();
+            con.commit(); // 명시적 커밋
+            System.out.println("[SUCCESS] 휴대폰 수정 완료 - ID: " + phone.getId());
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                if (con != null) con.rollback(); // 예외 발생 시 롤백
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
         } finally {
             DBManager.releaseConnection(pstmt, con);
         }
@@ -66,7 +80,7 @@ public class PhoneDao {
         return res;
     }
 
-    // 휴대폰 삭제 (이미 판매된 경우 삭제 불가)
+    // 휴대폰 삭제
     public int deletePhone(int id) {
         int res = -1;
         String sql = "DELETE FROM phone WHERE id = ?";
@@ -80,8 +94,15 @@ public class PhoneDao {
             pstmt.setInt(1, id);
 
             res = pstmt.executeUpdate();
+            con.commit(); // 명시적 커밋
+            System.out.println("[SUCCESS] 휴대폰 삭제 완료 - ID: " + id);
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                if (con != null) con.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
         } finally {
             DBManager.releaseConnection(pstmt, con);
         }
@@ -89,7 +110,7 @@ public class PhoneDao {
         return res;
     }
 
-    // 특정 휴대폰 조회 (존재하지 않으면 null 반환)
+    // 특정 휴대폰 조회
     public Phone getPhoneById(int id) {
         Phone phone = null;
         String sql = "SELECT * FROM phone WHERE id = ?";
@@ -186,7 +207,7 @@ public class PhoneDao {
         return phones;
     }
 
-    // 특정 휴대폰의 재고 수량 변경 (관리자용)
+    // 특정 휴대폰의 재고 수량 변경
     public int updateStock(int phoneId, int newStock) {
         int res = -1;
         String sql = "UPDATE phone SET stock = ? WHERE id = ?";
@@ -201,8 +222,15 @@ public class PhoneDao {
             pstmt.setInt(2, phoneId);
 
             res = pstmt.executeUpdate();
+            con.commit(); // 명시적 커밋
+            System.out.println("[SUCCESS] 재고 수정 완료 - ID: " + phoneId);
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                if (con != null) con.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
         } finally {
             DBManager.releaseConnection(pstmt, con);
         }

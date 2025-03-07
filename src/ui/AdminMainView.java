@@ -77,7 +77,7 @@ public class AdminMainView extends JPanel {
         refreshTable();
     }
 
-    // 휴대폰 수정 다이얼로그
+    // 휴대폰 수정 다이얼로그 (수정 후 테이블 갱신)
     private void openEditPhoneDialog() {
         int selectedRow = phoneTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -87,7 +87,14 @@ public class AdminMainView extends JPanel {
 
         int phoneId = (int) phoneTable.getValueAt(selectedRow, 0);
         Phone phone = phoneDao.getPhoneById(phoneId);
-        new EditPhoneDialog(this, phone).setVisible(true);
+
+        EditPhoneDialog dialog = new EditPhoneDialog(this, phone);
+        dialog.setVisible(true);
+
+        // 다이얼로그가 정상적으로 닫힌 후에만 새로고침
+        if (dialog.isConfirmed()) { // isConfirmed()는 다이얼로그에서 수정이 완료되었는지 체크하는 메서드
+            refreshTable();
+        }
     }
 
     // 휴대폰 삭제
@@ -112,11 +119,11 @@ public class AdminMainView extends JPanel {
         }
     }
 
-    // 테이블 새로고침
+    // 테이블 새로고침 (removeAll() 제거)
     public void refreshTable() {
-        removeAll();
         Object[][] newData = fetchPhoneData();
         phoneTable.setModel(new javax.swing.table.DefaultTableModel(newData, new String[]{"ID", "브랜드", "모델", "가격", "재고"}));
+
         revalidate();
         repaint();
     }
